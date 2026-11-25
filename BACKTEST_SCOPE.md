@@ -1,5 +1,9 @@
 # Backtest engine: first-draft scope
 
+> NautilusTrader has since been selected. Execution rules below are provisional
+> where they conflict with [the framework decision](./BACKTEST_FRAMEWORK.md);
+> reconcile them after validating the framework's behavior.
+
 ## Goal
 
 Build a small, reproducible backtest engine for a single stock using one-minute
