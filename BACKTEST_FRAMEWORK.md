@@ -46,6 +46,12 @@ Confirm the CSV's timestamp convention before converting candles to framework
 bars. Each session must start with the configured balance and end without
 positions or pending orders.
 
+The first executable prototype is currently a deterministic local event loop
+rather than a NautilusTrader integration. It follows the draft scope's
+next-minute-open, fixed-basis-point-slippage, and stop-first assumptions, so
+its results are not framework-equivalent. This boundary and the migration
+requirement are recorded in [BACKTEST_SCOPE.md](./BACKTEST_SCOPE.md).
+
 Before committing to detailed implementation, validate a small controlled
 example covering:
 

@@ -1,0 +1,19 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "quant-trade-backtest"
+version = "0.1.0"
+description = "Deterministic intraday backtest prototype for one-minute equity bars"
+requires-python = ">=3.10"
+dependencies = [
+    "exchange-calendars>=4.5,<5",
+    "pandas>=2,<4",
+]
+
+[project.scripts]
+quant-backtest = "quant_trade.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]

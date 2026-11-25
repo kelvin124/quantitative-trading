@@ -15,8 +15,9 @@ or optimizing profitability is out of scope.
 - Read one symbol from `data/NVDA_clean_1min.csv`, which contains `datetime`,
   OHLC, volume, and source columns.
 - Interpret timestamps in `America/New_York`, including daylight-saving changes.
-  Confirm whether each timestamp denotes the start or end of its candle before
-  implementing the simulation.
+  The supplied file has regular-session timestamps from 09:30 through 15:59;
+  the prototype interprets them as minute-start timestamps. Confirm this
+  convention with the data provider before treating results as authoritative.
 - Use regular trading hours only. Use the exchange session calendar to account
   for holidays and early closes.
 - Validate the input and report invalid or missing data explicitly. In
@@ -105,3 +106,20 @@ profit and stop exits (including gaps and same-candle ambiguity), forced
 end-of-session exits, insufficient cash, commissions, and P&L reconciliation.
 Check holiday and early-close handling and clearly report missing data that
 would prevent a reliable simulation.
+
+## Prototype implementation
+
+The current executable prototype is a deterministic Python event loop, not a
+NautilusTrader integration. This is a deliberate prototype boundary: it
+implements the draft's next-minute-open orders, fixed basis-point slippage,
+and stop-first ambiguity rule, which differ from NautilusTrader's documented
+default execution behavior. Do not treat its results as NautilusTrader results;
+framework integration remains a follow-up that must preserve or explicitly
+revise these assumptions.
+
+Install with `python -m pip install -e .`, run with
+`quant-backtest` (or `python -m quant_trade.cli`), and test with
+`python -m unittest discover -s tests`. Missing minute bars are reported;
+trades exposed to an intraday data gap are excluded from reliable P&L, and a
+position without the scheduled final candle remains unresolved rather than
+being assigned a fabricated exit.
