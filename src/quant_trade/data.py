@@ -43,7 +43,7 @@ def load_market_data(
                     raise ValueError("invalid OHLCV values")
                 session_date = candle.timestamp.date().isoformat()
                 if session_date not in session_bounds:
-                    session = pd.Timestamp(session_date, tz="UTC")
+                    session = pd.Timestamp(session_date)
                     if calendar.is_session(session):
                         session_bounds[session_date] = (
                             calendar.session_open(session).to_pydatetime(),
@@ -73,8 +73,8 @@ def load_market_data(
         return MarketData((), tuple(issues), invalid_rows)
 
     sessions = calendar.sessions_in_range(
-        pd.Timestamp(min(rows_by_date), tz="UTC"),
-        pd.Timestamp(max(rows_by_date), tz="UTC"),
+        pd.Timestamp(min(rows_by_date)),
+        pd.Timestamp(max(rows_by_date)),
     )
     loaded_sessions: list[SessionData] = []
     for session_label in sessions:
